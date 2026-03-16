@@ -25,6 +25,13 @@ def index(request):
 
 def get_pointages(request):
     try:
+        # Accepter une date en paramètre, sinon utiliser aujourd'hui
+        date_param = request.GET.get('date', None)
+        if date_param:
+            today = date_param
+        else:
+            today = datetime.now().strftime("%d/%m/%Y")
+
         session = requests.Session()
         session.get("https://vtportal.visualtime.net/2/indexv2.aspx",
                     headers={"User-Agent": "Mozilla/5.0"})
@@ -58,7 +65,6 @@ def get_pointages(request):
             "Rotoken": token, "X-Requested-With": "XMLHttpRequest",
         }
 
-        today = datetime.now().strftime("%d/%m/%Y")
         punches_resp = session.get(
             f"{BASE_URL}/GetMyPunches",
             params={"selectedDate": today, "timestamp": int(time.time())},
@@ -89,7 +95,7 @@ def get_pointages(request):
                 "terminal": p.get("TerminalName", ""),
             })
 
-        return JsonResponse({"punches": punches})
+        return JsonResponse({"punches": punches, "date": today})
 
     except Exception as e:
         return JsonResponse({"error": str(e)})

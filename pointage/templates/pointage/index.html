@@ -220,15 +220,12 @@
       display:flex; align-items:center; gap:.3rem;
     }
     .chip-label { font-size:.58rem; color:var(--muted); }
-
-    /* ── SYNC BUTTON ── */
     .btn-sync {
       width:100%; padding:.85rem; border:1px solid var(--blue); border-radius:8px; cursor:pointer;
       font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.1em;
       background: transparent; color:var(--blue);
       display:flex; align-items:center; justify-content:center; gap:.6rem;
       transition: all .2s;
-      position: relative; overflow: hidden;
     }
     .btn-sync:hover { background: rgba(77,159,255,.1); transform:translateY(-2px); }
     .btn-sync:active { transform:translateY(0); }
@@ -236,27 +233,18 @@
     .btn-sync .sync-icon { font-size:1rem; }
     .btn-sync.loading .sync-icon { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── SYNC STATUS ── */
     .sync-status {
       font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
-      text-align:center; padding:.5rem;
-      border-radius:6px; margin-top:.5rem;
-      display:none;
+      text-align:center; padding:.5rem; border-radius:6px; margin-top:.5rem; display:none;
     }
     .sync-status.ok    { color:var(--accent); background:rgba(200,241,53,.07); display:block; }
     .sync-status.error { color:var(--danger); background:rgba(255,92,92,.07); display:block; }
     .sync-status.info  { color:var(--blue);   background:rgba(77,159,255,.07); display:block; }
-
-    /* ── VT PUNCHES LIST ── */
-    .vt-punches {
-      display:flex; flex-direction:column; gap:.4rem; margin-top:.8rem;
-    }
+    .vt-punches { display:flex; flex-direction:column; gap:.4rem; margin-top:.8rem; }
     .vt-punch {
       display:flex; align-items:center; gap:.6rem;
       padding:.5rem .7rem; background:var(--bg);
-      border:1px solid var(--border); border-radius:7px;
-      font-size:.75rem;
+      border:1px solid var(--border); border-radius:7px; font-size:.75rem;
     }
     .vt-punch-icon { font-size:1rem; }
     .vt-punch-time { font-family:var(--ff-d); font-size:1.1rem; color:var(--text); }
@@ -279,10 +267,8 @@
     <button class="tab" onclick="switchTab('manual')">Saisie</button>
   </div>
 
-  <!-- ══ AUJOURD'HUI ══ -->
   <div id="tab-today" class="panel visible">
 
-    <!-- CARTE SYNC VTPORTAL -->
     <div class="card" id="sync-card">
       <div class="top-line blue"></div>
       <div class="card-title"><div class="dot blue"></div>VTPortal — Cegid Visualtime</div>
@@ -311,25 +297,20 @@
         <span id="status-label">En poste</span>
       </div>
       <div class="chrono-big" id="chrono-display">00:00:00</div>
-
       <div style="margin-top:.8rem">
         <div class="prog-meta"><span>Journée 8h</span><span id="prog-pct">0%</span></div>
         <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
       </div>
-
       <div class="stats-grid">
         <div class="stat"><div class="stat-label">Arrivée</div><div class="stat-val" id="s-start">—</div></div>
         <div class="stat"><div class="stat-label">Fin théorique</div><div class="stat-val green" id="s-end">—</div></div>
         <div class="stat"><div class="stat-label">Restant</div><div class="stat-val" id="s-remaining">—</div></div>
         <div class="stat"><div class="stat-label">Pause cumulée</div><div class="stat-val orange" id="s-pause">0min</div></div>
       </div>
-
       <div style="margin-top:1rem">
         <div class="card-title" style="margin-bottom:.4rem"><div class="dot blue"></div>Badges du jour</div>
         <div class="badge-chips" id="badge-chips"></div>
       </div>
-
-      <!-- PAUSE -->
       <div class="pause-section">
         <div class="card-title" style="margin-bottom:.7rem"><div class="dot pause"></div>Pause déjeuner</div>
         <div id="pause-start-section">
@@ -353,7 +334,6 @@
           <p class="hint"><button onclick="setNow('pause-end-input')">Maintenant</button></p>
         </div>
       </div>
-
       <div style="margin-top:1.2rem" class="btn-row">
         <button class="btn-ghost danger" onclick="resetDay()">Recommencer</button>
         <button class="btn-primary danger" onclick="finishDay()">TERMINER</button>
@@ -362,7 +342,6 @@
 
   </div>
 
-  <!-- ══ SEMAINE ══ -->
   <div id="tab-week" class="panel">
     <div class="card">
       <div class="top-line blue"></div>
@@ -381,7 +360,6 @@
     </div>
   </div>
 
-  <!-- ══ HISTORIQUE ══ -->
   <div id="tab-history" class="panel">
     <div class="card">
       <div class="top-line"></div>
@@ -390,7 +368,6 @@
     </div>
   </div>
 
-  <!-- ══ SAISIE MANUELLE ══ -->
   <div id="tab-manual" class="panel">
     <div class="card">
       <div class="top-line blue"></div>
@@ -451,70 +428,125 @@ function switchTab(name){
 /* ══════════════════════════════════════════
    SYNC VTPORTAL
 ══════════════════════════════════════════ */
-async function syncVTPortal() {
+
+async function autoSync() {
+  // Vérifier si hier est déjà dans l'historique
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yKey  = `${yesterday.getFullYear()}-${pad(yesterday.getMonth()+1)}-${pad(yesterday.getDate())}`;
+  const yDate = `${pad(yesterday.getDate())}/${pad(yesterday.getMonth()+1)}/${yesterday.getFullYear()}`;
+
+  const alreadySaved = getHistory().find(e => e.date === yKey);
+
+  if (!alreadySaved) {
+    try {
+      const resp = await fetch(`/api/pointages/?date=${yDate}`);
+      const data = await resp.json();
+      const punches = data.punches || [];
+      if (punches.length > 0) {
+        saveYesterday(punches, yKey);
+        console.log(`✓ Journée du ${yKey} récupérée automatiquement`);
+      }
+    } catch(e) {
+      console.log('Auto-sync hier échoué:', e);
+    }
+  }
+
+  // Sync aujourd'hui en silencieux
+  await syncVTPortal(true);
+}
+
+function saveYesterday(punches, dateKey) {
+  function hmsToSec(hms) {
+    const parts = hms.split(':').map(Number);
+    return parts[0]*3600 + parts[1]*60 + (parts[2]||0);
+  }
+  const entry  = punches.find(p => p.type === 1);
+  const pause  = punches.find(p => p.type === 2);
+  const retour = punches.find(p => p.type === 3);
+  const sortie = punches.find(p => p.type === 4);
+  if (!entry) return;
+
+  let totalPauseSec = 0;
+  if (pause && retour) totalPauseSec = Math.max(0, hmsToSec(retour.time) - hmsToSec(pause.time));
+
+  const lastPunch = punches[punches.length - 1];
+  const endTime   = sortie ? sortie.time : lastPunch.time;
+  const workedSec = Math.max(0, hmsToSec(endTime) - hmsToSec(entry.time) - totalPauseSec);
+
+  const badgeLabels = { 1:'start', 2:'pause_start', 3:'pause_end', 4:'end' };
+  const badges = punches.map(p => ({ type: badgeLabels[p.type]||'start', label: p.time.slice(0,5) }));
+
+  const history = getHistory().filter(e => e.date !== dateKey);
+  history.unshift({ date: dateKey, workedSec, pauseSec: totalPauseSec, badges });
+  history.sort((a,b) => b.date.localeCompare(a.date));
+  saveHistory(history);
+}
+
+async function syncVTPortal(silent=false) {
   const btn    = document.getElementById('sync-btn');
   const status = document.getElementById('sync-status');
   const list   = document.getElementById('vt-punches');
 
-  btn.classList.add('loading');
-  btn.querySelector('.sync-icon').textContent = '↻';
-  status.className = 'sync-status info';
-  status.textContent = 'Connexion à VTPortal…';
-  list.innerHTML = '';
+  if (!silent) {
+    btn.classList.add('loading');
+    status.className = 'sync-status info';
+    status.textContent = 'Connexion à VTPortal…';
+    list.innerHTML = '';
+  }
 
   try {
-    // Appel Django → /api/pointages/
     const resp = await fetch('/api/pointages/');
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
 
     if (data.error) {
-      status.className = 'sync-status error';
-      status.textContent = '❌ ' + data.error;
+      if (!silent) {
+        status.className = 'sync-status error';
+        status.textContent = '❌ ' + data.error;
+      }
       btn.classList.remove('loading');
       return;
     }
 
     const punches = data.punches || [];
 
-    if (punches.length === 0) {
-      status.className = 'sync-status info';
-      status.textContent = 'Aucun pointage aujourd\'hui.';
-      btn.classList.remove('loading');
-      return;
+    if (!silent) {
+      if (punches.length === 0) {
+        status.className = 'sync-status info';
+        status.textContent = "Aucun pointage aujourd'hui.";
+        btn.classList.remove('loading');
+        return;
+      }
+      const icons  = { 1:'🟢', 2:'🟡', 3:'🔵', 4:'🔴' };
+      const labels = { 1:'Arrivée', 2:'Pause', 3:'Retour', 4:'Départ' };
+      list.innerHTML = punches.map(p => `
+        <div class="vt-punch">
+          <span class="vt-punch-icon">${icons[p.type]||'⚪'}</span>
+          <span class="vt-punch-time">${p.time}</span>
+          <span class="vt-punch-label">${labels[p.type]||'Badge'}</span>
+          <span class="vt-punch-term">${p.terminal||''}</span>
+        </div>
+      `).join('');
+      status.className = 'sync-status ok';
+      status.textContent = `✓ ${punches.length} pointage(s) synchronisé(s)`;
     }
 
-    // Afficher la liste des pointages
-    const icons  = { 1:'🟢', 2:'🟡', 3:'🔵', 4:'🔴' };
-    const labels = { 1:'Arrivée', 2:'Pause', 3:'Retour', 4:'Départ' };
-    list.innerHTML = punches.map(p => `
-      <div class="vt-punch">
-        <span class="vt-punch-icon">${icons[p.type]||'⚪'}</span>
-        <span class="vt-punch-time">${p.time}</span>
-        <span class="vt-punch-label">${labels[p.type]||'Badge'}</span>
-        <span class="vt-punch-term">${p.terminal||''}</span>
-      </div>
-    `).join('');
-
-    // Appliquer automatiquement les pointages au chrono
     applyPunches(punches);
 
-    status.className = 'sync-status ok';
-    status.textContent = `✓ ${punches.length} pointage(s) synchronisé(s)`;
-
   } catch(e) {
-    status.className = 'sync-status error';
-    status.textContent = '❌ Erreur : ' + e.message;
+    if (!silent) {
+      status.className = 'sync-status error';
+      status.textContent = '❌ Erreur : ' + e.message;
+    }
   }
 
   btn.classList.remove('loading');
 }
 
-/* Applique les pointages VTPortal au chrono */
 function applyPunches(punches) {
   if (!punches.length) return;
 
-  // Convertir "HH:MM:SS" en secondes depuis minuit
   function hmsToSec(hms) {
     const parts = hms.split(':').map(Number);
     return parts[0]*3600 + parts[1]*60 + (parts[2]||0);
@@ -526,38 +558,24 @@ function applyPunches(punches) {
     return Math.floor(d.getTime() / 1000);
   }
 
-  // Type 1 = Entrée, 2 = Pause, 3 = Retour de pause, 4 = Sortie
-  const entry    = punches.find(p => p.type === 1);
-  const pause    = punches.find(p => p.type === 2);
-  const retour   = punches.find(p => p.type === 3);
-  const sortie   = punches.find(p => p.type === 4);
+  const entry  = punches.find(p => p.type === 1);
+  const pause  = punches.find(p => p.type === 2);
+  const retour = punches.find(p => p.type === 3);
+  const sortie = punches.find(p => p.type === 4);
 
   if (!entry) return;
 
-  // Calculer la pause totale
   let totalPauseSec = 0;
-  if (pause && retour) {
-    totalPauseSec = hmsToSec(retour.time) - hmsToSec(pause.time);
-    totalPauseSec = Math.max(0, totalPauseSec);
-  }
+  if (pause && retour) totalPauseSec = Math.max(0, hmsToSec(retour.time) - hmsToSec(pause.time));
 
-  // Construire les badges
   const badgeLabels = { 1:'start', 2:'pause_start', 3:'pause_end', 4:'end' };
-  const badges = punches.map(p => ({
-    type: badgeLabels[p.type] || 'start',
-    label: p.time.slice(0,5) // HH:MM
-  }));
-
-  // Démarrer l'état
+  const badges = punches.map(p => ({ type: badgeLabels[p.type]||'start', label: p.time.slice(0,5) }));
   const startSec = hmsToTimestamp(entry.time);
-  let pauseStartSec = null;
-  let isPaused = false;
 
   if (sortie) {
-    // Journée terminée → enregistrer en historique
-    const endSec = hmsToTimestamp(sortie.time);
+    const endSec    = hmsToTimestamp(sortie.time);
     const workedSec = Math.max(0, endSec - startSec - totalPauseSec);
-    const history = getHistory().filter(e => e.date !== todayKey());
+    const history   = getHistory().filter(e => e.date !== todayKey());
     history.unshift({ date: todayKey(), workedSec, pauseSec: totalPauseSec, badges });
     saveHistory(history);
     state = { running:false, paused:false, startSec:null, pauseStartSec:null, totalPauseSec:0, badges:[] };
@@ -568,24 +586,13 @@ function applyPunches(punches) {
     return;
   }
 
-  if (pause && !retour) {
-    // Actuellement en pause
-    pauseStartSec = hmsToTimestamp(pause.time);
-    isPaused = true;
-  }
+  let pauseStartSec = null;
+  let isPaused = false;
+  if (pause && !retour) { pauseStartSec = hmsToTimestamp(pause.time); isPaused = true; }
 
-  // Mettre à jour l'état
-  state = {
-    running: true,
-    paused: isPaused,
-    startSec,
-    pauseStartSec,
-    totalPauseSec,
-    badges
-  };
+  state = { running:true, paused:isPaused, startSec, pauseStartSec, totalPauseSec, badges };
   saveState();
 
-  // Afficher le chrono
   document.getElementById('setup-card').style.display = 'none';
   document.getElementById('chrono-card').style.display = '';
   document.getElementById('s-start').textContent = entry.time.slice(0,5);
@@ -596,14 +603,9 @@ function applyPunches(punches) {
   } else {
     document.getElementById('pause-start-section').style.display = '';
     document.getElementById('pause-end-section').style.display = 'none';
-    if (pause && retour) {
-      // Pause terminée, pré-remplir les inputs
-      document.getElementById('pause-start-input').value = pause.time.slice(0,5);
-    }
   }
 
-  updateEndTime();
-  renderBadges();
+  updateEndTime(); renderBadges();
   clearInterval(ticker);
   ticker = setInterval(tick, 1000);
   tick();
@@ -631,7 +633,7 @@ function updateEndTime(){
 /* ── PAUSE ── */
 function startPause(){
   const val=document.getElementById('pause-start-input').value;
-  if(!val) return alert('Entre l\'heure de départ en pause.');
+  if(!val) return alert("Entre l'heure de départ en pause.");
   const d=new Date(); const [h,m]=val.split(':').map(Number); d.setHours(h,m,0,0);
   state.pauseStartSec=Math.floor(d.getTime()/1000);
   state.paused=true;
@@ -644,7 +646,7 @@ function startPause(){
 
 function endPause(){
   const val=document.getElementById('pause-end-input').value;
-  if(!val) return alert('Entre l\'heure de retour.');
+  if(!val) return alert("Entre l'heure de retour.");
   const d=new Date(); const [h,m]=val.split(':').map(Number); d.setHours(h,m,0,0);
   const endSec=Math.floor(d.getTime()/1000);
   state.totalPauseSec+=Math.max(0,endSec-state.pauseStartSec);
@@ -665,22 +667,17 @@ function tick(){
     : now - state.startSec - state.totalPauseSec;
   elapsed=Math.max(0,elapsed);
   const isOT=elapsed>WORKDAY, pct=Math.min((elapsed/WORKDAY)*100,100);
-
   document.getElementById('chrono-display').textContent=fmtDur(elapsed);
   document.getElementById('chrono-display').className='chrono-big'+(state.paused?' paused':isOT?' overtime':'');
-
   const dot=document.getElementById('status-dot'), lbl=document.getElementById('status-label');
   if(state.paused){ dot.className='pulse-dot pause'; lbl.textContent='En pause'; }
   else { dot.className='pulse-dot'; lbl.textContent=isOT?'Heures sup !':'En poste'; }
-
   document.getElementById('prog-fill').style.width=pct+'%';
   document.getElementById('prog-fill').className='prog-fill'+(isOT?' overtime':'');
   document.getElementById('prog-pct').textContent=Math.round(pct)+'%';
-
   const rem=WORKDAY-elapsed;
   document.getElementById('s-remaining').textContent=isOT?'+'+fmtDur(elapsed-WORKDAY,true):fmtDur(rem,true);
   document.getElementById('s-remaining').className='stat-val'+(isOT?' red':'');
-
   let dp=state.totalPauseSec;
   if(state.paused && state.pauseStartSec) dp+=(now-state.pauseStartSec);
   document.getElementById('s-pause').textContent=dp>0?`${Math.floor(dp/60)}min`:'0min';
@@ -832,6 +829,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     updateEndTime(); renderBadges();
     ticker=setInterval(tick,1000); tick();
   }
+  autoSync(); // Sync automatique au chargement
+  setInterval(() => syncVTPortal(true), 5 * 60 * 1000); // Sync silencieuse toutes les 5 min
 });
 </script>
 </body>
