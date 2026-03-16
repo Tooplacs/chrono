@@ -68,6 +68,7 @@ def get_pointages(request):
         raw = punches_resp.json().get("d", {}).get("Punches", [])
         punches = []
         entry_count = 0
+        pause_count = 0
         for p in raw:
             ms = int(re.search(r'\d+', p["DateTime"]).group())
             dt = datetime.fromtimestamp(ms / 1000)
@@ -77,6 +78,10 @@ def get_pointages(request):
                 entry_count += 1
                 if entry_count == 2:
                     punch_type = 3
+            elif punch_type == 2:
+                pause_count += 1
+                if pause_count == 2:
+                    punch_type = 4
 
             punches.append({
                 "type":     punch_type,
