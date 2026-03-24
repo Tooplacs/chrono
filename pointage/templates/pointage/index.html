@@ -25,16 +25,11 @@
     }
     html, body { height: 100%; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--ff-m);
-      min-height: 100vh;
-      padding: 2rem 1rem 4rem;
-      overflow-x: hidden;
+      background: var(--bg); color: var(--text); font-family: var(--ff-m);
+      min-height: 100vh; padding: 2rem 1rem 4rem; overflow-x: hidden;
     }
     body::before {
-      content: '';
-      position: fixed; inset: 0;
+      content: ''; position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       opacity:.5; pointer-events:none; z-index:0;
     }
@@ -44,86 +39,35 @@
       background:radial-gradient(ellipse, rgba(200,241,53,.06) 0%, transparent 70%);
       pointer-events:none; z-index:0;
     }
-    .app {
-      position: relative; z-index: 1;
-      max-width: 520px; margin: 0 auto;
-      display: flex; flex-direction: column; gap: 1.2rem;
-    }
+    .app { position: relative; z-index: 1; max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; }
     .header { text-align: center; padding: 1rem 0 .5rem; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: .6rem;
-    }
-    .eyebrow::before, .eyebrow::after {
-      content:''; display:block; width:20px; height:1px; background:var(--border);
-    }
-    .header h1 {
-      font-family: var(--ff-d); font-size: clamp(2.6rem, 9vw, 3.8rem);
-      letter-spacing: .06em; line-height: 1;
-    }
+    .eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
+    .eyebrow::before, .eyebrow::after { content:''; display:block; width:20px; height:1px; background:var(--border); }
+    .header h1 { font-family: var(--ff-d); font-size: clamp(2.6rem, 9vw, 3.8rem); letter-spacing: .06em; line-height: 1; }
     .header h1 em { font-style:normal; color:var(--accent); }
-    .tabs {
-      display: flex; gap: .4rem;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: .3rem;
-    }
-    .tab {
-      flex: 1; padding: .55rem .3rem;
-      background: none; border: none;
-      color: var(--muted); font-family: var(--ff-m); font-size: .62rem;
-      letter-spacing: .08em; text-transform: uppercase;
-      cursor: pointer; border-radius: 7px; transition: all .2s;
-    }
+    .tabs { display: flex; gap: .4rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: .3rem; }
+    .tab { flex: 1; padding: .55rem .3rem; background: none; border: none; color: var(--muted); font-family: var(--ff-m); font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; border-radius: 7px; transition: all .2s; }
     .tab.active { background: var(--surface2); color: var(--text); }
     .tab:hover:not(.active) { color: var(--text); }
     .panel { display: none; }
     .panel.visible { display: flex; flex-direction: column; gap: 1rem; }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.4rem 1.6rem;
-      position: relative; overflow: hidden;
-    }
-    .card-title {
-      font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 1rem;
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .card-title .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); box-shadow: 0 0 6px var(--accent);
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem 1.6rem; position: relative; overflow: hidden; }
+    .card-title { font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+    .card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
     .card-title .dot.pause { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
     .card-title .dot.blue  { background: var(--blue);   box-shadow: 0 0 6px var(--blue); }
-    .top-line {
-      position: absolute; top:0; left:0; right:0; height:2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
+    .card-title .dot.purple { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+    .top-line { position: absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
     .top-line.orange { background: linear-gradient(90deg, transparent, var(--orange), transparent); }
     .top-line.blue   { background: linear-gradient(90deg, transparent, var(--blue),   transparent); }
-    .chrono-big {
-      font-family: var(--ff-d); font-size: clamp(4rem, 16vw, 6.5rem);
-      letter-spacing: .04em; line-height: 1;
-      color: var(--accent); text-align: center;
-      text-shadow: 0 0 40px rgba(200,241,53,.2); transition: color .4s;
-    }
+    .top-line.purple { background: linear-gradient(90deg, transparent, #a78bfa, transparent); }
+    .chrono-big { font-family: var(--ff-d); font-size: clamp(4rem, 16vw, 6.5rem); letter-spacing: .04em; line-height: 1; color: var(--accent); text-align: center; text-shadow: 0 0 40px rgba(200,241,53,.2); transition: color .4s; }
     .chrono-big.paused   { color: var(--orange); text-shadow: 0 0 40px rgba(255,156,65,.2); }
     .chrono-big.overtime { color: var(--danger);  text-shadow: 0 0 40px rgba(255,92,92,.2); }
-    .chrono-status {
-      text-align: center; font-size: .65rem; letter-spacing: .16em;
-      text-transform: uppercase; margin-bottom: .6rem;
-      display: flex; align-items: center; justify-content: center; gap: .4rem;
-    }
-    .pulse-dot {
-      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); animation: pulse 2s ease infinite;
-    }
+    .chrono-status { text-align: center; font-size: .65rem; letter-spacing: .16em; text-transform: uppercase; margin-bottom: .6rem; display: flex; align-items: center; justify-content: center; gap: .4rem; }
+    .pulse-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease infinite; }
     .pulse-dot.pause { background: var(--orange); animation: none; }
-    @keyframes pulse {
-      0%  { box-shadow: 0 0 0 0   rgba(200,241,53,.5); }
-      70% { box-shadow: 0 0 0 8px rgba(200,241,53,0); }
-      100%{ box-shadow: 0 0 0 0   rgba(200,241,53,0); }
-    }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(200,241,53,.5);} 70%{box-shadow:0 0 0 8px rgba(200,241,53,0);} 100%{box-shadow:0 0 0 0 rgba(200,241,53,0);} }
     .prog-meta { display:flex; justify-content:space-between; font-size:.62rem; color:var(--muted); margin-bottom:.4rem; }
     .prog-track { height:4px; background:var(--border); border-radius:99px; overflow:hidden; }
     .prog-fill  { height:100%; border-radius:99px; background:var(--accent); transition: width .8s ease, background .4s; }
@@ -136,37 +80,22 @@
     .stat-val.blue   { color:var(--blue); }
     .stat-val.orange { color:var(--orange); }
     .stat-val.red    { color:var(--danger); }
+    .stat-val.purple { color:#a78bfa; }
     .field { display:flex; flex-direction:column; gap:.4rem; }
     .field label { font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
-    input[type="time"], input[type="date"] {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 7px; color: var(--text);
-      font-family: var(--ff-m); font-size: .9rem;
-      padding: .6rem .9rem; outline: none; width: 100%;
-      transition: border-color .2s, box-shadow .2s;
-    }
+    input[type="time"], input[type="date"] { background: var(--bg); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-family: var(--ff-m); font-size: .9rem; padding: .6rem .9rem; outline: none; width: 100%; transition: border-color .2s, box-shadow .2s; }
     input[type="time"] { font-family: var(--ff-d); font-size: 2rem; letter-spacing:.06em; }
     input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
     input[type="time"]::-webkit-calendar-picker-indicator { filter:invert(.4); cursor:pointer; }
     .input-row { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
-    .btn-primary {
-      width:100%; padding:.85rem; border:none; border-radius:8px; cursor:pointer;
-      font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.1em;
-      background:var(--accent); color:var(--bg);
-      box-shadow:0 4px 20px rgba(200,241,53,.18);
-      transition: opacity .2s, transform .15s, box-shadow .2s;
-    }
+    .btn-primary { width:100%; padding:.85rem; border:none; border-radius:8px; cursor:pointer; font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.1em; background:var(--accent); color:var(--bg); box-shadow:0 4px 20px rgba(200,241,53,.18); transition: opacity .2s, transform .15s, box-shadow .2s; }
     .btn-primary:hover { opacity:.9; transform:translateY(-2px); }
     .btn-primary:active { transform:translateY(0); }
     .btn-primary.orange { background:var(--orange); color:var(--bg); box-shadow:0 4px 20px rgba(255,156,65,.18); }
     .btn-primary.blue   { background:var(--blue);   color:var(--bg); box-shadow:0 4px 20px rgba(77,159,255,.18); }
     .btn-primary.danger { background:var(--danger);  color:#fff;     box-shadow:0 4px 20px rgba(255,92,92,.18); }
     .btn-row { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
-    .btn-ghost {
-      background:none; border:1px solid var(--border); border-radius:8px;
-      color:var(--muted); font-family:var(--ff-m); font-size:.75rem;
-      padding:.6rem 1rem; cursor:pointer; transition: all .2s; width:100%;
-    }
+    .btn-ghost { background:none; border:1px solid var(--border); border-radius:8px; color:var(--muted); font-family:var(--ff-m); font-size:.75rem; padding:.6rem 1rem; cursor:pointer; transition: all .2s; width:100%; }
     .btn-ghost:hover { border-color:var(--text); color:var(--text); }
     .btn-ghost.danger:hover { border-color:var(--danger); color:var(--danger); }
     .pause-section { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); }
@@ -175,31 +104,19 @@
     .week-bar { display:flex; align-items:flex-end; gap:.5rem; height:90px; margin:.5rem 0 1rem; }
     .week-bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:.3rem; }
     .week-bar-fill-wrap { flex:1; width:100%; display:flex; align-items:flex-end; }
-    .week-bar-fill {
-      width:100%; border-radius:4px 4px 0 0; min-height:3px;
-      background:var(--accent); transition:height .6s ease;
-    }
+    .week-bar-fill { width:100%; border-radius:4px 4px 0 0; min-height:3px; background:var(--accent); transition:height .6s ease; }
     .week-bar-fill.today { background:var(--blue); box-shadow:0 0 10px rgba(77,159,255,.3); }
     .week-bar-fill.empty { background:var(--border); }
+    .week-bar-fill.over  { background:var(--accent); }
+    .week-bar-fill.under { background:var(--orange); }
     .week-bar-day { font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
     .week-bar-val { font-size:.6rem; color:var(--text); min-height:.9rem; }
-    .week-total {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:.9rem 1rem; background:var(--bg); border:1px solid var(--border); border-radius:8px;
-    }
+    .week-total { display:flex; justify-content:space-between; align-items:center; padding:.9rem 1rem; background:var(--bg); border:1px solid var(--border); border-radius:8px; }
     .week-total-label { font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
     .week-total-val { font-family:var(--ff-d); font-size:1.8rem; color:var(--blue); }
     .history-list { display:flex; flex-direction:column; gap:.5rem; }
-    .history-item {
-      display:flex; align-items:center; gap:.8rem;
-      background:var(--bg); border:1px solid var(--border);
-      border-radius:8px; padding:.7rem 1rem;
-      animation: slideIn .3s forwards;
-    }
-    @keyframes slideIn {
-      from { opacity:0; transform:translateX(-10px); }
-      to   { opacity:1; transform:translateX(0); }
-    }
+    .history-item { display:flex; align-items:center; gap:.8rem; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:.7rem 1rem; animation: slideIn .3s forwards; }
+    @keyframes slideIn { from{opacity:0;transform:translateX(-10px);} to{opacity:1;transform:translateX(0);} }
     .history-date { flex:1; }
     .history-date .hd-main { font-size:.82rem; color:var(--text); }
     .history-date .hd-sub  { font-size:.65rem; color:var(--muted); margin-top:.1rem; }
@@ -208,48 +125,52 @@
     .history-dur.short { color:var(--orange); }
     .history-del  { background:none; border:none; color:var(--muted); cursor:pointer; font-size:.9rem; transition:color .2s; padding:.2rem; }
     .history-del:hover { color:var(--danger); }
-    .divider { height:1px; background:var(--border); margin:.3rem 0; }
     .hint { font-size:.68rem; color:var(--muted); margin-top:.4rem; }
     .hint button { background:none; border:none; color:var(--accent); font-family:var(--ff-m); font-size:.68rem; cursor:pointer; text-decoration:underline; padding:0; }
     .empty-state { text-align:center; padding:2rem 1rem; color:var(--muted); font-size:.8rem; }
     .empty-state .big { font-family:var(--ff-d); font-size:2rem; color:var(--border); display:block; margin-bottom:.5rem; }
     .badge-chips { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.5rem; }
-    .badge-chip {
-      background:var(--bg); border:1px solid var(--border); border-radius:99px;
-      padding:.25rem .7rem; font-size:.7rem; color:var(--text);
-      display:flex; align-items:center; gap:.3rem;
-    }
+    .badge-chip { background:var(--bg); border:1px solid var(--border); border-radius:99px; padding:.25rem .7rem; font-size:.7rem; color:var(--text); display:flex; align-items:center; gap:.3rem; }
     .chip-label { font-size:.58rem; color:var(--muted); }
-    .btn-sync {
-      width:100%; padding:.85rem; border:1px solid var(--blue); border-radius:8px; cursor:pointer;
-      font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.1em;
-      background: transparent; color:var(--blue);
-      display:flex; align-items:center; justify-content:center; gap:.6rem;
-      transition: all .2s;
-    }
+    .btn-sync { width:100%; padding:.85rem; border:1px solid var(--blue); border-radius:8px; cursor:pointer; font-family:var(--ff-d); font-size:1.3rem; letter-spacing:.1em; background: transparent; color:var(--blue); display:flex; align-items:center; justify-content:center; gap:.6rem; transition: all .2s; }
     .btn-sync:hover { background: rgba(77,159,255,.1); transform:translateY(-2px); }
     .btn-sync:active { transform:translateY(0); }
     .btn-sync.loading { opacity:.6; pointer-events:none; }
     .btn-sync .sync-icon { font-size:1rem; }
     .btn-sync.loading .sync-icon { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .sync-status {
-      font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
-      text-align:center; padding:.5rem; border-radius:6px; margin-top:.5rem; display:none;
-    }
+    .sync-status { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; text-align:center; padding:.5rem; border-radius:6px; margin-top:.5rem; display:none; }
     .sync-status.ok    { color:var(--accent); background:rgba(200,241,53,.07); display:block; }
     .sync-status.error { color:var(--danger); background:rgba(255,92,92,.07); display:block; }
     .sync-status.info  { color:var(--blue);   background:rgba(77,159,255,.07); display:block; }
     .vt-punches { display:flex; flex-direction:column; gap:.4rem; margin-top:.8rem; }
-    .vt-punch {
-      display:flex; align-items:center; gap:.6rem;
-      padding:.5rem .7rem; background:var(--bg);
-      border:1px solid var(--border); border-radius:7px; font-size:.75rem;
-    }
+    .vt-punch { display:flex; align-items:center; gap:.6rem; padding:.5rem .7rem; background:var(--bg); border:1px solid var(--border); border-radius:7px; font-size:.75rem; }
     .vt-punch-icon { font-size:1rem; }
     .vt-punch-time { font-family:var(--ff-d); font-size:1.1rem; color:var(--text); }
     .vt-punch-label { color:var(--muted); flex:1; }
     .vt-punch-term { font-size:.6rem; color:var(--muted); letter-spacing:.08em; }
+
+    /* ── MONTH SELECTOR ── */
+    .month-selector { display:flex; gap:.4rem; margin-bottom:1rem; }
+    .month-btn { flex:1; padding:.5rem; background:none; border:1px solid var(--border); border-radius:7px; color:var(--muted); font-family:var(--ff-m); font-size:.65rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+    .month-btn.active { border-color:#a78bfa; color:#a78bfa; background:rgba(167,139,250,.08); }
+    .month-btn:hover:not(.active) { border-color:var(--text); color:var(--text); }
+
+    /* ── MONTH STATS ── */
+    .month-stats { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-bottom:1rem; }
+
+    /* ── MONTH GRAPH ── */
+    .month-bar { display:flex; align-items:flex-end; gap:.3rem; height:80px; margin:.5rem 0 .8rem; }
+    .month-bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:.2rem; }
+    .month-bar-fill-wrap { flex:1; width:100%; display:flex; align-items:flex-end; }
+    .month-bar-fill { width:100%; border-radius:3px 3px 0 0; min-height:2px; transition:height .6s ease; }
+    .month-bar-fill.m-over  { background:#a78bfa; }
+    .month-bar-fill.m-under { background:var(--orange); }
+    .month-bar-fill.m-empty { background:var(--border); }
+    .month-bar-fill.m-future { background:var(--border); opacity:.4; }
+    .month-bar-label { font-size:.5rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+    .month-ref-line { width:100%; height:1px; background:rgba(167,139,250,.3); margin:.3rem 0 .2rem; position:relative; }
+    .month-ref-line::after { content:'8h'; position:absolute; right:0; top:-8px; font-size:.55rem; color:#a78bfa; font-family:var(--ff-m); }
   </style>
 </head>
 <body>
@@ -267,8 +188,8 @@
     <button class="tab" onclick="switchTab('manual')">Saisie</button>
   </div>
 
+  <!-- ══ AUJOURD'HUI ══ -->
   <div id="tab-today" class="panel visible">
-
     <div class="card" id="sync-card">
       <div class="top-line blue"></div>
       <div class="card-title"><div class="dot blue"></div>VTPortal — Cegid Visualtime</div>
@@ -339,10 +260,12 @@
         <button class="btn-primary danger" onclick="finishDay()">TERMINER</button>
       </div>
     </div>
-
   </div>
 
+  <!-- ══ SEMAINE ══ -->
   <div id="tab-week" class="panel">
+
+    <!-- Graphique semaine existant -->
     <div class="card">
       <div class="top-line blue"></div>
       <div class="card-title"><div class="dot blue"></div>Semaine en cours (Lun → Ven)</div>
@@ -358,8 +281,52 @@
         </div>
       </div>
     </div>
+
+    <!-- Graphique mensuel -->
+    <div class="card">
+      <div class="top-line purple"></div>
+      <div class="card-title"><div class="dot purple"></div>Analyse mensuelle</div>
+
+      <!-- Sélecteur mois -->
+      <div class="month-selector">
+        <button class="month-btn active" id="btn-current-month" onclick="selectMonth('current')">Mois en cours</button>
+        <button class="month-btn" id="btn-prev-month" onclick="selectMonth('prev')">Mois précédent</button>
+      </div>
+
+      <!-- Stats du mois -->
+      <div class="month-stats">
+        <div class="stat">
+          <div class="stat-label">Moyenne / jour</div>
+          <div class="stat-val purple" id="month-avg">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Jours enregistrés</div>
+          <div class="stat-val" id="month-days">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Total du mois</div>
+          <div class="stat-val blue" id="month-total">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Solde vs 8h/j</div>
+          <div class="stat-val" id="month-balance">—</div>
+        </div>
+      </div>
+
+      <!-- Ligne de référence 8h -->
+      <div class="month-ref-line"></div>
+
+      <!-- Graphique par semaine du mois -->
+      <div class="month-bar" id="month-bar"></div>
+
+      <div style="font-size:.6rem;color:var(--muted);text-align:center;margin-top:.3rem">
+        🟣 ≥ 8h &nbsp;&nbsp; 🟠 &lt; 8h &nbsp;&nbsp; ░ Pas de données
+      </div>
+    </div>
+
   </div>
 
+  <!-- ══ HISTORIQUE ══ -->
   <div id="tab-history" class="panel">
     <div class="card">
       <div class="top-line"></div>
@@ -368,6 +335,7 @@
     </div>
   </div>
 
+  <!-- ══ SAISIE MANUELLE ══ -->
   <div id="tab-manual" class="panel">
     <div class="card">
       <div class="top-line blue"></div>
@@ -395,6 +363,7 @@ const WORKDAY = 8 * 3600;
 const WEEK_TARGET = 40 * 3600;
 let state = { running:false, paused:false, startSec:null, pauseStartSec:null, totalPauseSec:0, badges:[] };
 let ticker = null;
+let selectedMonth = 'current';
 
 function saveState() { try { localStorage.setItem('vt_state', JSON.stringify(state)); } catch(e){} }
 function loadState()  { try { const s = localStorage.getItem('vt_state'); if(s) state = JSON.parse(s); } catch(e){} }
@@ -414,6 +383,7 @@ function fmtDate(key){
   const [y,m,d]=key.split('-');
   return new Date(+y,+m-1,+d).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 }
+function isWeekend(date){ const d=date.getDay(); return d===0||d===6; }
 
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>{
@@ -421,7 +391,7 @@ function switchTab(name){
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('visible'));
   document.getElementById('tab-'+name).classList.add('visible');
-  if(name==='week')    renderWeek();
+  if(name==='week')    { renderWeek(); renderMonth(); }
   if(name==='history') renderHistory();
 }
 
@@ -430,185 +400,94 @@ function switchTab(name){
 ══════════════════════════════════════════ */
 
 async function autoSync() {
-  // Vérifier si hier est déjà dans l'historique
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yKey  = `${yesterday.getFullYear()}-${pad(yesterday.getMonth()+1)}-${pad(yesterday.getDate())}`;
   const yDate = `${pad(yesterday.getDate())}/${pad(yesterday.getMonth()+1)}/${yesterday.getFullYear()}`;
-
   const alreadySaved = getHistory().find(e => e.date === yKey);
-
   if (!alreadySaved) {
     try {
       const resp = await fetch(`/api/pointages/?date=${yDate}`);
       const data = await resp.json();
       const punches = data.punches || [];
-      if (punches.length > 0) {
-        saveYesterday(punches, yKey);
-        console.log(`✓ Journée du ${yKey} récupérée automatiquement`);
-      }
-    } catch(e) {
-      console.log('Auto-sync hier échoué:', e);
-    }
+      if (punches.length > 0) { saveYesterday(punches, yKey); }
+    } catch(e) { console.log('Auto-sync hier échoué:', e); }
   }
-
-  // Sync aujourd'hui en silencieux
   await syncVTPortal(true);
 }
 
 function saveYesterday(punches, dateKey) {
-  function hmsToSec(hms) {
-    const parts = hms.split(':').map(Number);
-    return parts[0]*3600 + parts[1]*60 + (parts[2]||0);
-  }
-  const entry  = punches.find(p => p.type === 1);
-  const pause  = punches.find(p => p.type === 2);
-  const retour = punches.find(p => p.type === 3);
-  const sortie = punches.find(p => p.type === 4);
-  if (!entry) return;
-
-  let totalPauseSec = 0;
-  if (pause && retour) totalPauseSec = Math.max(0, hmsToSec(retour.time) - hmsToSec(pause.time));
-
-  const lastPunch = punches[punches.length - 1];
-  const endTime   = sortie ? sortie.time : lastPunch.time;
-  const workedSec = Math.max(0, hmsToSec(endTime) - hmsToSec(entry.time) - totalPauseSec);
-
-  const badgeLabels = { 1:'start', 2:'pause_start', 3:'pause_end', 4:'end' };
-  const badges = punches.map(p => ({ type: badgeLabels[p.type]||'start', label: p.time.slice(0,5) }));
-
-  const history = getHistory().filter(e => e.date !== dateKey);
-  history.unshift({ date: dateKey, workedSec, pauseSec: totalPauseSec, badges });
-  history.sort((a,b) => b.date.localeCompare(a.date));
+  function hmsToSec(hms){ const p=hms.split(':').map(Number); return p[0]*3600+p[1]*60+(p[2]||0); }
+  const entry=punches.find(p=>p.type===1), pause=punches.find(p=>p.type===2);
+  const retour=punches.find(p=>p.type===3), sortie=punches.find(p=>p.type===4);
+  if(!entry) return;
+  let totalPauseSec=0;
+  if(pause&&retour) totalPauseSec=Math.max(0,hmsToSec(retour.time)-hmsToSec(pause.time));
+  const lastPunch=punches[punches.length-1];
+  const endTime=sortie?sortie.time:lastPunch.time;
+  const workedSec=Math.max(0,hmsToSec(endTime)-hmsToSec(entry.time)-totalPauseSec);
+  const badgeLabels={1:'start',2:'pause_start',3:'pause_end',4:'end'};
+  const badges=punches.map(p=>({type:badgeLabels[p.type]||'start',label:p.time.slice(0,5)}));
+  const history=getHistory().filter(e=>e.date!==dateKey);
+  history.unshift({date:dateKey,workedSec,pauseSec:totalPauseSec,badges});
+  history.sort((a,b)=>b.date.localeCompare(a.date));
   saveHistory(history);
 }
 
 async function syncVTPortal(silent=false) {
-  const btn    = document.getElementById('sync-btn');
-  const status = document.getElementById('sync-status');
-  const list   = document.getElementById('vt-punches');
-
-  if (!silent) {
-    btn.classList.add('loading');
-    status.className = 'sync-status info';
-    status.textContent = 'Connexion à VTPortal…';
-    list.innerHTML = '';
-  }
-
+  const btn=document.getElementById('sync-btn'), status=document.getElementById('sync-status'), list=document.getElementById('vt-punches');
+  if(!silent){ btn.classList.add('loading'); status.className='sync-status info'; status.textContent='Connexion à VTPortal…'; list.innerHTML=''; }
   try {
-    const resp = await fetch('/api/pointages/');
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-
-    if (data.error) {
-      if (!silent) {
-        status.className = 'sync-status error';
-        status.textContent = '❌ ' + data.error;
-      }
-      btn.classList.remove('loading');
-      return;
+    const resp=await fetch('/api/pointages/');
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data=await resp.json();
+    if(data.error){ if(!silent){ status.className='sync-status error'; status.textContent='❌ '+data.error; } btn.classList.remove('loading'); return; }
+    const punches=data.punches||[];
+    if(!silent){
+      if(punches.length===0){ status.className='sync-status info'; status.textContent="Aucun pointage aujourd'hui."; btn.classList.remove('loading'); return; }
+      const icons={1:'🟢',2:'🟡',3:'🔵',4:'🔴'}, labels={1:'Arrivée',2:'Pause',3:'Retour',4:'Départ'};
+      list.innerHTML=punches.map(p=>`<div class="vt-punch"><span class="vt-punch-icon">${icons[p.type]||'⚪'}</span><span class="vt-punch-time">${p.time}</span><span class="vt-punch-label">${labels[p.type]||'Badge'}</span><span class="vt-punch-term">${p.terminal||''}</span></div>`).join('');
+      status.className='sync-status ok'; status.textContent=`✓ ${punches.length} pointage(s) synchronisé(s)`;
     }
-
-    const punches = data.punches || [];
-
-    if (!silent) {
-      if (punches.length === 0) {
-        status.className = 'sync-status info';
-        status.textContent = "Aucun pointage aujourd'hui.";
-        btn.classList.remove('loading');
-        return;
-      }
-      const icons  = { 1:'🟢', 2:'🟡', 3:'🔵', 4:'🔴' };
-      const labels = { 1:'Arrivée', 2:'Pause', 3:'Retour', 4:'Départ' };
-      list.innerHTML = punches.map(p => `
-        <div class="vt-punch">
-          <span class="vt-punch-icon">${icons[p.type]||'⚪'}</span>
-          <span class="vt-punch-time">${p.time}</span>
-          <span class="vt-punch-label">${labels[p.type]||'Badge'}</span>
-          <span class="vt-punch-term">${p.terminal||''}</span>
-        </div>
-      `).join('');
-      status.className = 'sync-status ok';
-      status.textContent = `✓ ${punches.length} pointage(s) synchronisé(s)`;
-    }
-
     applyPunches(punches);
-
-  } catch(e) {
-    if (!silent) {
-      status.className = 'sync-status error';
-      status.textContent = '❌ Erreur : ' + e.message;
-    }
-  }
-
+  } catch(e){ if(!silent){ status.className='sync-status error'; status.textContent='❌ Erreur : '+e.message; } }
   btn.classList.remove('loading');
 }
 
 function applyPunches(punches) {
-  if (!punches.length) return;
-
-  function hmsToSec(hms) {
-    const parts = hms.split(':').map(Number);
-    return parts[0]*3600 + parts[1]*60 + (parts[2]||0);
-  }
-  function hmsToTimestamp(hms) {
-    const d = new Date();
-    const [h,m,s] = hms.split(':').map(Number);
-    d.setHours(h, m, s||0, 0);
-    return Math.floor(d.getTime() / 1000);
-  }
-
-  const entry  = punches.find(p => p.type === 1);
-  const pause  = punches.find(p => p.type === 2);
-  const retour = punches.find(p => p.type === 3);
-  const sortie = punches.find(p => p.type === 4);
-
-  if (!entry) return;
-
-  let totalPauseSec = 0;
-  if (pause && retour) totalPauseSec = Math.max(0, hmsToSec(retour.time) - hmsToSec(pause.time));
-
-  const badgeLabels = { 1:'start', 2:'pause_start', 3:'pause_end', 4:'end' };
-  const badges = punches.map(p => ({ type: badgeLabels[p.type]||'start', label: p.time.slice(0,5) }));
-  const startSec = hmsToTimestamp(entry.time);
-
-  if (sortie) {
-    const endSec    = hmsToTimestamp(sortie.time);
-    const workedSec = Math.max(0, endSec - startSec - totalPauseSec);
-    const history   = getHistory().filter(e => e.date !== todayKey());
-    history.unshift({ date: todayKey(), workedSec, pauseSec: totalPauseSec, badges });
+  if(!punches.length) return;
+  function hmsToSec(hms){ const p=hms.split(':').map(Number); return p[0]*3600+p[1]*60+(p[2]||0); }
+  function hmsToTimestamp(hms){ const d=new Date(); const [h,m,s]=hms.split(':').map(Number); d.setHours(h,m,s||0,0); return Math.floor(d.getTime()/1000); }
+  const entry=punches.find(p=>p.type===1), pause=punches.find(p=>p.type===2);
+  const retour=punches.find(p=>p.type===3), sortie=punches.find(p=>p.type===4);
+  if(!entry) return;
+  let totalPauseSec=0;
+  if(pause&&retour) totalPauseSec=Math.max(0,hmsToSec(retour.time)-hmsToSec(pause.time));
+  const badgeLabels={1:'start',2:'pause_start',3:'pause_end',4:'end'};
+  const badges=punches.map(p=>({type:badgeLabels[p.type]||'start',label:p.time.slice(0,5)}));
+  const startSec=hmsToTimestamp(entry.time);
+  if(sortie){
+    const endSec=hmsToTimestamp(sortie.time), workedSec=Math.max(0,endSec-startSec-totalPauseSec);
+    const history=getHistory().filter(e=>e.date!==todayKey());
+    history.unshift({date:todayKey(),workedSec,pauseSec:totalPauseSec,badges});
     saveHistory(history);
-    state = { running:false, paused:false, startSec:null, pauseStartSec:null, totalPauseSec:0, badges:[] };
+    state={running:false,paused:false,startSec:null,pauseStartSec:null,totalPauseSec:0,badges:[]};
     saveState();
-    document.getElementById('setup-card').style.display = '';
-    document.getElementById('chrono-card').style.display = 'none';
-    clearInterval(ticker);
-    return;
+    document.getElementById('setup-card').style.display='';
+    document.getElementById('chrono-card').style.display='none';
+    clearInterval(ticker); return;
   }
-
-  let pauseStartSec = null;
-  let isPaused = false;
-  if (pause && !retour) { pauseStartSec = hmsToTimestamp(pause.time); isPaused = true; }
-
-  state = { running:true, paused:isPaused, startSec, pauseStartSec, totalPauseSec, badges };
+  let pauseStartSec=null, isPaused=false;
+  if(pause&&!retour){ pauseStartSec=hmsToTimestamp(pause.time); isPaused=true; }
+  state={running:true,paused:isPaused,startSec,pauseStartSec,totalPauseSec,badges};
   saveState();
-
-  document.getElementById('setup-card').style.display = 'none';
-  document.getElementById('chrono-card').style.display = '';
-  document.getElementById('s-start').textContent = entry.time.slice(0,5);
-
-  if (isPaused) {
-    document.getElementById('pause-start-section').style.display = 'none';
-    document.getElementById('pause-end-section').style.display = '';
-  } else {
-    document.getElementById('pause-start-section').style.display = '';
-    document.getElementById('pause-end-section').style.display = 'none';
-  }
-
+  document.getElementById('setup-card').style.display='none';
+  document.getElementById('chrono-card').style.display='';
+  document.getElementById('s-start').textContent=entry.time.slice(0,5);
+  if(isPaused){ document.getElementById('pause-start-section').style.display='none'; document.getElementById('pause-end-section').style.display=''; }
+  else { document.getElementById('pause-start-section').style.display=''; document.getElementById('pause-end-section').style.display='none'; }
   updateEndTime(); renderBadges();
-  clearInterval(ticker);
-  ticker = setInterval(tick, 1000);
-  tick();
+  clearInterval(ticker); ticker=setInterval(tick,1000); tick();
 }
 
 /* ── START DAY ── */
@@ -616,7 +495,7 @@ function startDay(){
   const val=document.getElementById('start-time').value;
   if(!val) return alert('Entre une heure de début.');
   const d=new Date(); const [h,m]=val.split(':').map(Number); d.setHours(h,m,0,0);
-  state={ running:true, paused:false, startSec:Math.floor(d.getTime()/1000), pauseStartSec:null, totalPauseSec:0, badges:[{type:'start',label:val}] };
+  state={running:true,paused:false,startSec:Math.floor(d.getTime()/1000),pauseStartSec:null,totalPauseSec:0,badges:[{type:'start',label:val}]};
   saveState();
   document.getElementById('setup-card').style.display='none';
   document.getElementById('chrono-card').style.display='';
@@ -624,7 +503,6 @@ function startDay(){
   updateEndTime(); renderBadges();
   clearInterval(ticker); ticker=setInterval(tick,1000); tick();
 }
-
 function updateEndTime(){
   const e=new Date((state.startSec+WORKDAY+state.totalPauseSec)*1000);
   document.getElementById('s-end').textContent=`${pad(e.getHours())}:${pad(e.getMinutes())}`;
@@ -635,15 +513,12 @@ function startPause(){
   const val=document.getElementById('pause-start-input').value;
   if(!val) return alert("Entre l'heure de départ en pause.");
   const d=new Date(); const [h,m]=val.split(':').map(Number); d.setHours(h,m,0,0);
-  state.pauseStartSec=Math.floor(d.getTime()/1000);
-  state.paused=true;
-  state.badges.push({type:'pause_start',label:val});
-  saveState();
+  state.pauseStartSec=Math.floor(d.getTime()/1000); state.paused=true;
+  state.badges.push({type:'pause_start',label:val}); saveState();
   document.getElementById('pause-start-section').style.display='none';
   document.getElementById('pause-end-section').style.display='';
   setNow('pause-end-input'); renderBadges();
 }
-
 function endPause(){
   const val=document.getElementById('pause-end-input').value;
   if(!val) return alert("Entre l'heure de retour.");
@@ -651,8 +526,7 @@ function endPause(){
   const endSec=Math.floor(d.getTime()/1000);
   state.totalPauseSec+=Math.max(0,endSec-state.pauseStartSec);
   state.paused=false; state.pauseStartSec=null;
-  state.badges.push({type:'pause_end',label:val});
-  saveState();
+  state.badges.push({type:'pause_end',label:val}); saveState();
   document.getElementById('pause-start-section').style.display='';
   document.getElementById('pause-end-section').style.display='none';
   updateEndTime(); renderBadges();
@@ -662,16 +536,14 @@ function endPause(){
 function tick(){
   if(!state.running) return;
   const now=nowSec();
-  let elapsed = state.paused && state.pauseStartSec
-    ? state.pauseStartSec - state.startSec - state.totalPauseSec
-    : now - state.startSec - state.totalPauseSec;
+  let elapsed=state.paused&&state.pauseStartSec?state.pauseStartSec-state.startSec-state.totalPauseSec:now-state.startSec-state.totalPauseSec;
   elapsed=Math.max(0,elapsed);
   const isOT=elapsed>WORKDAY, pct=Math.min((elapsed/WORKDAY)*100,100);
   document.getElementById('chrono-display').textContent=fmtDur(elapsed);
   document.getElementById('chrono-display').className='chrono-big'+(state.paused?' paused':isOT?' overtime':'');
   const dot=document.getElementById('status-dot'), lbl=document.getElementById('status-label');
-  if(state.paused){ dot.className='pulse-dot pause'; lbl.textContent='En pause'; }
-  else { dot.className='pulse-dot'; lbl.textContent=isOT?'Heures sup !':'En poste'; }
+  if(state.paused){dot.className='pulse-dot pause';lbl.textContent='En pause';}
+  else{dot.className='pulse-dot';lbl.textContent=isOT?'Heures sup !':'En poste';}
   document.getElementById('prog-fill').style.width=pct+'%';
   document.getElementById('prog-fill').className='prog-fill'+(isOT?' overtime':'');
   document.getElementById('prog-pct').textContent=Math.round(pct)+'%';
@@ -679,16 +551,14 @@ function tick(){
   document.getElementById('s-remaining').textContent=isOT?'+'+fmtDur(elapsed-WORKDAY,true):fmtDur(rem,true);
   document.getElementById('s-remaining').className='stat-val'+(isOT?' red':'');
   let dp=state.totalPauseSec;
-  if(state.paused && state.pauseStartSec) dp+=(now-state.pauseStartSec);
+  if(state.paused&&state.pauseStartSec) dp+=(now-state.pauseStartSec);
   document.getElementById('s-pause').textContent=dp>0?`${Math.floor(dp/60)}min`:'0min';
 }
 
 /* ── BADGES ── */
 function renderBadges(){
   const labels={start:'Arrivée',pause_start:'Pause ↓',pause_end:'Retour ↑',end:'Départ'};
-  document.getElementById('badge-chips').innerHTML=(state.badges||[]).map(b=>`
-    <div class="badge-chip"><span class="chip-label">${labels[b.type]||''}</span>${b.label}</div>
-  `).join('');
+  document.getElementById('badge-chips').innerHTML=(state.badges||[]).map(b=>`<div class="badge-chip"><span class="chip-label">${labels[b.type]||''}</span>${b.label}</div>`).join('');
 }
 
 /* ── FINISH ── */
@@ -696,20 +566,17 @@ function finishDay(){
   if(!state.running) return;
   if(!confirm('Terminer et enregistrer la journée ?')) return;
   const now=nowSec();
-  let elapsed= state.paused && state.pauseStartSec
-    ? state.pauseStartSec - state.startSec - state.totalPauseSec
-    : now - state.startSec - state.totalPauseSec;
+  let elapsed=state.paused&&state.pauseStartSec?state.pauseStartSec-state.startSec-state.totalPauseSec:now-state.startSec-state.totalPauseSec;
   elapsed=Math.max(0,elapsed);
   const history=getHistory().filter(e=>e.date!==todayKey());
-  history.unshift({ date:todayKey(), workedSec:elapsed, pauseSec:state.totalPauseSec, badges:state.badges });
-  saveHistory(history);
-  resetDay();
+  history.unshift({date:todayKey(),workedSec:elapsed,pauseSec:state.totalPauseSec,badges:state.badges});
+  saveHistory(history); resetDay();
 }
 
 /* ── RESET ── */
 function resetDay(){
   clearInterval(ticker);
-  state={ running:false, paused:false, startSec:null, pauseStartSec:null, totalPauseSec:0, badges:[] };
+  state={running:false,paused:false,startSec:null,pauseStartSec:null,totalPauseSec:0,badges:[]};
   saveState();
   document.getElementById('setup-card').style.display='';
   document.getElementById('chrono-card').style.display='none';
@@ -724,23 +591,16 @@ function resetDay(){
 /* ── HISTORY ── */
 function renderHistory(){
   const list=document.getElementById('history-list'), history=getHistory();
-  if(!history.length){
-    list.innerHTML='<div class="empty-state"><span class="big">VIDE</span>Aucune journée enregistrée.</div>';
-    return;
-  }
+  if(!history.length){ list.innerHTML='<div class="empty-state"><span class="big">VIDE</span>Aucune journée enregistrée.</div>'; return; }
   list.innerHTML=history.map((e,i)=>{
     const full=e.workedSec>=WORKDAY, pm=Math.round(e.pauseSec/60);
     return `<div class="history-item" style="animation-delay:${i*40}ms">
-      <div class="history-date">
-        <div class="hd-main">${fmtDate(e.date)}</div>
-        ${pm>0?`<div class="hd-sub">Pause : ${pm}min</div>`:''}
-      </div>
+      <div class="history-date"><div class="hd-main">${fmtDate(e.date)}</div>${pm>0?`<div class="hd-sub">Pause : ${pm}min</div>`:''}</div>
       <div class="history-dur ${full?'full':'short'}">${fmtDur(e.workedSec,true)}</div>
       <button class="history-del" onclick="deleteHistory('${e.date}')" title="Supprimer">✕</button>
     </div>`;
   }).join('');
 }
-
 function deleteHistory(date){
   if(!confirm('Supprimer cette journée ?')) return;
   saveHistory(getHistory().filter(e=>e.date!==date));
@@ -752,37 +612,24 @@ function getMonday(d){
   const date=new Date(d), day=date.getDay(), diff=date.getDate()-day+(day===0?-6:1);
   date.setDate(diff); date.setHours(0,0,0,0); return date;
 }
-
 function renderWeek(){
   const history=getHistory(), today=new Date(), monday=getMonday(today);
   const todayStr=todayKey(), days=['LUN','MAR','MER','JEU','VEN'];
   let todayWorked=0;
-  if(state.running){
-    const now=nowSec();
-    let el=state.paused&&state.pauseStartSec ? state.pauseStartSec-state.startSec-state.totalPauseSec : now-state.startSec-state.totalPauseSec;
-    todayWorked=Math.max(0,el);
-  }
+  if(state.running){ const now=nowSec(); let el=state.paused&&state.pauseStartSec?state.pauseStartSec-state.startSec-state.totalPauseSec:now-state.startSec-state.totalPauseSec; todayWorked=Math.max(0,el); }
   let weekData=[], totalSec=0;
   for(let i=0;i<5;i++){
     const d=new Date(monday); d.setDate(monday.getDate()+i);
     const key=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-    const entry=history.find(e=>e.date===key);
-    let sec=entry?entry.workedSec:0;
+    const entry=history.find(e=>e.date===key); let sec=entry?entry.workedSec:0;
     if(key===todayStr&&state.running) sec=Math.max(sec,todayWorked);
-    weekData.push({label:days[i],sec,isToday:key===todayStr});
-    totalSec+=sec;
+    weekData.push({label:days[i],sec,isToday:key===todayStr}); totalSec+=sec;
   }
   const maxSec=Math.max(...weekData.map(d=>d.sec),WORKDAY);
   document.getElementById('week-bar').innerHTML=weekData.map(d=>{
     const pct=d.sec>0?Math.min((d.sec/maxSec)*100,100):5;
     const cls=d.isToday?' today':d.sec===0?' empty':'';
-    return `<div class="week-bar-col">
-      <div class="week-bar-fill-wrap">
-        <div class="week-bar-fill${cls}" style="height:${pct}%"></div>
-      </div>
-      <div class="week-bar-val">${d.sec>0?fmtDur(d.sec,true):''}</div>
-      <div class="week-bar-day">${d.label}</div>
-    </div>`;
+    return `<div class="week-bar-col"><div class="week-bar-fill-wrap"><div class="week-bar-fill${cls}" style="height:${pct}%"></div></div><div class="week-bar-val">${d.sec>0?fmtDur(d.sec,true):''}</div><div class="week-bar-day">${d.label}</div></div>`;
   }).join('');
   document.getElementById('week-total-val').textContent=fmtDur(totalSec,true);
   const rem=WEEK_TARGET-totalSec, remEl=document.getElementById('week-remaining-val');
@@ -790,14 +637,109 @@ function renderWeek(){
   remEl.style.color=rem<=0?'var(--accent)':'var(--muted)';
 }
 
+/* ══════════════════════════════════════════
+   GRAPHIQUE MENSUEL
+══════════════════════════════════════════ */
+
+function selectMonth(which) {
+  selectedMonth = which;
+  document.getElementById('btn-current-month').classList.toggle('active', which==='current');
+  document.getElementById('btn-prev-month').classList.toggle('active', which==='prev');
+  renderMonth();
+}
+
+function renderMonth() {
+  const history = getHistory();
+  const today = new Date();
+
+  // Définir le mois à afficher
+  const refDate = new Date(today);
+  if (selectedMonth === 'prev') refDate.setMonth(refDate.getMonth() - 1);
+
+  const year  = refDate.getFullYear();
+  const month = refDate.getMonth(); // 0-based
+
+  // Nom du mois
+  const monthName = refDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+
+  // Récupérer tous les jours ouvrés du mois
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  let workedDays = 0, totalWorkedSec = 0;
+
+  // Regrouper par semaine du mois
+  const weekMap = {}; // { 'S1': { total, days, workdays } }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    if (isWeekend(date)) continue; // ignorer week-ends
+
+    const key = `${year}-${pad(month+1)}-${pad(d)}`;
+    const entry = history.find(e => e.date === key);
+
+    // Numéro de semaine dans le mois (S1, S2, S3, S4, S5)
+    const weekNum = Math.ceil(d / 7);
+    const wKey = `S${weekNum}`;
+    if (!weekMap[wKey]) weekMap[wKey] = { total: 0, days: 0, workdays: 0, label: wKey };
+    weekMap[wKey].workdays++;
+
+    if (entry) {
+      workedDays++;
+      totalWorkedSec += entry.workedSec;
+      weekMap[wKey].total += entry.workedSec;
+      weekMap[wKey].days++;
+    }
+  }
+
+  // Calculs
+  const avgSec     = workedDays > 0 ? Math.round(totalWorkedSec / workedDays) : 0;
+  const balanceSec = totalWorkedSec - (workedDays * WORKDAY);
+
+  // Afficher les stats
+  document.getElementById('month-avg').textContent   = workedDays > 0 ? fmtDur(avgSec, true) : '—';
+  document.getElementById('month-days').textContent  = workedDays > 0 ? `${workedDays}j` : '—';
+  document.getElementById('month-total').textContent = workedDays > 0 ? fmtDur(totalWorkedSec, true) : '—';
+
+  const balEl = document.getElementById('month-balance');
+  if (workedDays === 0) {
+    balEl.textContent = '—'; balEl.className = 'stat-val';
+  } else if (balanceSec >= 0) {
+    balEl.textContent = '+' + fmtDur(balanceSec, true);
+    balEl.className = 'stat-val green';
+  } else {
+    balEl.textContent = '-' + fmtDur(Math.abs(balanceSec), true);
+    balEl.className = 'stat-val red';
+  }
+
+  // Graphique par semaine
+  const weeks = Object.values(weekMap);
+  const maxSec = Math.max(...weeks.map(w => w.total), WORKDAY);
+
+  document.getElementById('month-bar').innerHTML = weeks.map(w => {
+    if (w.days === 0) {
+      // Pas de données pour cette semaine
+      const isFuture = selectedMonth === 'current' && w.workdays > 0;
+      return `<div class="month-bar-col">
+        <div class="month-bar-fill-wrap"><div class="month-bar-fill ${isFuture?'m-future':'m-empty'}" style="height:5%"></div></div>
+        <div class="month-bar-val"></div>
+        <div class="month-bar-label">${w.label}</div>
+      </div>`;
+    }
+    const avgWeek = w.total / w.days;
+    const pct = Math.min((w.total / maxSec) * 100, 100);
+    const cls = avgWeek >= WORKDAY ? 'm-over' : 'm-under';
+    return `<div class="month-bar-col">
+      <div class="month-bar-fill-wrap"><div class="month-bar-fill ${cls}" style="height:${pct}%"></div></div>
+      <div class="month-bar-val" style="font-size:.58rem">${fmtDur(avgWeek,true)}/j</div>
+      <div class="month-bar-label">${w.label}</div>
+    </div>`;
+  }).join('');
+}
+
 /* ── MANUAL ── */
 function saveManual(){
-  const date=document.getElementById('manual-date').value;
-  const start=document.getElementById('manual-start').value;
-  const end=document.getElementById('manual-end').value;
-  const ps=document.getElementById('manual-pause-start').value;
-  const pe=document.getElementById('manual-pause-end').value;
-  const msg=document.getElementById('manual-msg');
+  const date=document.getElementById('manual-date').value, start=document.getElementById('manual-start').value;
+  const end=document.getElementById('manual-end').value, ps=document.getElementById('manual-pause-start').value;
+  const pe=document.getElementById('manual-pause-end').value, msg=document.getElementById('manual-msg');
   if(!date||!start||!end){ msg.textContent='⚠ Date, arrivée et départ sont obligatoires.'; msg.style.color='var(--danger)'; return; }
   let startS=timeToSec(start), endS=timeToSec(end);
   if(endS<=startS) endS+=86400;
@@ -829,7 +771,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     updateEndTime(); renderBadges();
     ticker=setInterval(tick,1000); tick();
   }
-  autoSync(); // Sync automatique au chargement
+  autoSync();
   setInterval(() => syncVTPortal(true), 5 * 60 * 1000);
 });
 </script>
